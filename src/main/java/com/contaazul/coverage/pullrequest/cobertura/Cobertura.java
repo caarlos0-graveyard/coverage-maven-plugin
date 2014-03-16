@@ -1,4 +1,4 @@
-package com.contaazul.coverage.pullrequest;
+package com.contaazul.coverage.pullrequest.cobertura;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

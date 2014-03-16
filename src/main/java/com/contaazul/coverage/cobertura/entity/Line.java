@@ -63,7 +63,7 @@ public class Line {
 			conditions = new ArrayList<Condition>();
 		return conditions;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Line [number=" + number + ", hits=" + hits + ", branch=" + branch + ", conditionCoverage="

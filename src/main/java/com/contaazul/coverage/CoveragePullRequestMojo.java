@@ -8,7 +8,6 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
 import com.contaazul.coverage.github.GithubRepo;
-import com.contaazul.coverage.pullrequest.PullRequestValidator;
 import com.contaazul.coverage.pullrequest.PullRequestValidatorBuilder;
 
 /**
@@ -80,14 +79,14 @@ public class CoveragePullRequestMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		PullRequestValidator validator = new PullRequestValidatorBuilder()
+		new PullRequestValidatorBuilder()
 				.oauth2( oauth2 )
 				.pullRequest( pullRequestId )
 				.repository( new GithubRepo( repositoryName, repositoryOwner ) )
 				.minCoverage( minimumCoverage )
 				.project( project )
-				.breakOnLowCov(breakOnLowCov)
-				.build();
-		validator.validate();
+				.breakOnLowCov( breakOnLowCov )
+				.build()
+				.validate();
 	}
 }

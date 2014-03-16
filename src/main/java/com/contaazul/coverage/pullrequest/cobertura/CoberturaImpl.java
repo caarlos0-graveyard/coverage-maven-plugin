@@ -1,4 +1,4 @@
-package com.contaazul.coverage.pullrequest;
+package com.contaazul.coverage.pullrequest.cobertura;
 
 public class CoberturaImpl implements Cobertura {
 	private double coverage = 0;
@@ -7,7 +7,8 @@ public class CoberturaImpl implements Cobertura {
 
 	@Override
 	public void incrementCoverage(double coverage) {
-		logger.debug( "Incrementing actual coverage from " + this.coverage + " with " + coverage );
+		logger.debug( "Incrementing actual coverage from " + this.coverage + " with " + coverage + " count "
+				+ (count + 1) );
 		this.coverage += coverage;
 		count++;
 	}
@@ -34,5 +35,10 @@ public class CoberturaImpl implements Cobertura {
 	@Override
 	public boolean isLowerThan(int allowed) {
 		return getCoverage() < allowed;
+	}
+
+	@Override
+	public String toString() {
+		return "CoberturaImpl [coverage=" + coverage + ", count=" + count + ", lastLine=" + lastLine + "]";
 	}
 }
