@@ -85,7 +85,7 @@ public class CoveragePullRequestMojo extends AbstractMojo {
 				.repository( new GithubRepo( repositoryName, repositoryOwner ) )
 				.minCoverage( minimumCoverage )
 				.project( project )
-				.breakOnLowCov(breakOnLowCov)
+				.breakOnLowCov( breakOnLowCov )
 				.build()
 				.validate();
 	}

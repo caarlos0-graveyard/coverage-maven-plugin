@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.contaazul.coverage.cobertura.entity.Clazz;
 import com.contaazul.coverage.cobertura.entity.Line;
+import com.contaazul.coverage.cobertura.entity.NullLine;
 
 public class LineCoveragerImpl implements LineCoverager {
 	private static final Logger logger = LoggerFactory.getLogger( LineCoverager.class );
@@ -26,7 +27,7 @@ public class LineCoveragerImpl implements LineCoverager {
 	@Override
 	public Integer getCoverage(int lineNumber) {
 		Line line = findLine( lineNumber );
-		logger.info( "Line.class " + line.getClass().getSimpleName() );
+		logger.debug( "Line.class " + line.getClass().getSimpleName() );
 		return getCoverageOf( line );
 	}
 
@@ -37,7 +38,7 @@ public class LineCoveragerImpl implements LineCoverager {
 		return new NullLine();
 	}
 
-	private Integer getCoverageOf(Line line) {
+	private int getCoverageOf(Line line) {
 		if (line.getConditionCoverage() != null)
 			return getConditionCoverage( line );
 		return line.getHits() > 0 ? 100 : 0;

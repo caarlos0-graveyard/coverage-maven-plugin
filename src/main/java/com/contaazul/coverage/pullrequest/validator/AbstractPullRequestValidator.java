@@ -14,10 +14,10 @@ import com.contaazul.coverage.github.PullRequestComment;
 import com.contaazul.coverage.pullrequest.UndercoveredException;
 import com.contaazul.coverage.pullrequest.analyser.CommitFileAnalyser;
 import com.contaazul.coverage.pullrequest.cobertura.Cobertura;
+import com.contaazul.coverage.pullrequest.cobertura.CoberturaImpl;
 import com.contaazul.coverage.pullrequest.cobertura.CoberturaMapper;
 import com.google.common.collect.Lists;
 
-// XXX this class has too much responsibility.
 public abstract class AbstractPullRequestValidator implements PullRequestValidator {
 	private static final String MESSAGE = "The new lines added are with %.2f%% of %d%% minimum allowed code coverage.";
 	private static final Logger logger = LoggerFactory.getLogger( PullRequestValidator.class );
@@ -43,8 +43,14 @@ public abstract class AbstractPullRequestValidator implements PullRequestValidat
 		final List<Cobertura> coberturas = Lists.newArrayList();
 		final CommitFileAnalyser analyser = new CommitFileAnalyser( mapper, chunkBlammer, minCoverage );
 		for (CommitFile file : gh.getPullRequestCommitFiles())
-			coberturas.add( analyser.analyse( file ) );
+			add( coberturas, analyser, file );
 		checkTotalCoverage( CoberturaMapper.map( coberturas ) );
+	}
+
+	private void add(final List<Cobertura> coberturas, final CommitFileAnalyser analyser, CommitFile file) {
+		final Cobertura cov = analyser.analyse( file );
+		if (cov instanceof CoberturaImpl)
+			coberturas.add( cov );
 	}
 
 	private void checkTotalCoverage(Cobertura cobertura) {

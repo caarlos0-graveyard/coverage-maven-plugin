@@ -1,9 +1,7 @@
-package com.contaazul.coverage.cobertura;
+package com.contaazul.coverage.cobertura.entity;
 
 import java.util.List;
 
-import com.contaazul.coverage.cobertura.entity.Condition;
-import com.contaazul.coverage.cobertura.entity.Line;
 import com.google.common.collect.Lists;
 
 public class NullLine extends Line {

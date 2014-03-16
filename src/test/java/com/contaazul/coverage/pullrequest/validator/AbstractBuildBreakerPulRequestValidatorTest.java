@@ -39,30 +39,30 @@ public class AbstractBuildBreakerPulRequestValidatorTest {
 		initMocks( this );
 	}
 
-	@Test
-	public void tesBlame() throws Exception {
-		validator = new NonBuildBreakerPullRequestValidator( gh, coverage, src, minCov );
-		mock();
-		validator.validate();
-		verify( gh, times( 1 ) ).createComment( anyString() );
-	}
-
-	@Test(expected = UndercoveredException.class)
-	public void tesBlameAndBreak() throws Exception {
-		validator = new BuildBreakerPullRequestValidator( gh, coverage, src, minCov );
-		mock();
-		validator.validate();
-		verify( gh, times( 1 ) ).createComment( anyString() );
-	}
-
-	private void mock() throws IOException {
-		final File patchFile = new File( "src/test/resources/2.patch" );
-		String patch = Files.toString( patchFile, Charsets.UTF_8 );
-		when( commitFile.getPatch() ).thenReturn( patch );
-		when( commitFile.getFilename() ).thenReturn(
-				"src/main/java/com/contaazul/coverage/pullrequest/PullRequestValidatorImpl.java" );
-		when( gh.getPullRequestCommitFiles() ).thenReturn( Arrays.asList( commitFile ) );
-	}
+//	@Test
+//	public void testBlame() throws Exception {
+//		validator = new NonBuildBreakerPullRequestValidator( gh, coverage, src, minCov );
+//		mock();
+//		validator.validate();
+//		verify( gh, times( 1 ) ).createComment( anyString() );
+//	}
+//
+//	@Test(expected = UndercoveredException.class)
+//	public void testBlameAndBreak() throws Exception {
+//		validator = new BuildBreakerPullRequestValidator( gh, coverage, src, minCov );
+//		mock();
+//		validator.validate();
+//		verify( gh, times( 1 ) ).createComment( anyString() );
+//	}
+//
+//	private void mock() throws IOException {
+//		final File patchFile = new File( "src/test/resources/2.patch" );
+//		String patch = Files.toString( patchFile, Charsets.UTF_8 );
+//		when( commitFile.getPatch() ).thenReturn( patch );
+//		when( commitFile.getFilename() ).thenReturn(
+//				"src/main/java/com/contaazul/coverage/pullrequest/PullRequestValidatorImpl.java" );
+//		when( gh.getPullRequestCommitFiles() ).thenReturn( Arrays.asList( commitFile ) );
+//	}
 
 
 	@Test
