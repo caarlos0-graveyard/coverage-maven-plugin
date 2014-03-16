@@ -24,7 +24,7 @@ public class LineCoveragerImpl implements LineCoverager {
 	 * @see com.contaazul.coverage.cobertura.LineCoverager#getLineCoverage(int)
 	 */
 	@Override
-	public Integer getLineCoverage(int lineNumber) {
+	public Integer getCoverage(int lineNumber) {
 		Line line = findLine( lineNumber );
 		return getCoverageOf( line );
 	}
@@ -33,13 +33,11 @@ public class LineCoveragerImpl implements LineCoverager {
 		for (Line line : clazz.getLines())
 			if (line.getNumber() == lineNumber)
 				return line;
-		return null;
+		return new NullLine();
 	}
 
 	private Integer getCoverageOf(Line line) {
-		if (line == null)
-			return null;
-		if (line.isBranch() && line.getConditionCoverage() != null)
+		if (line.getConditionCoverage() != null)
 			return getConditionCoverage( line );
 		return line.getHits() > 0 ? 100 : 0;
 	}
@@ -47,7 +45,7 @@ public class LineCoveragerImpl implements LineCoverager {
 	private int getConditionCoverage(Line line) {
 		final Pattern regex = Pattern.compile( "%.*" );
 		final String value = regex.matcher( line.getConditionCoverage() ).replaceAll( "" );
-		logger.debug("Value parsed " + value);
+		logger.debug( "Value parsed " + value );
 		return Integer.parseInt( value );
 	}
 }

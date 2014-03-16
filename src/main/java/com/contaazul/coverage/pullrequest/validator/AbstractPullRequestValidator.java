@@ -41,7 +41,7 @@ public abstract class AbstractPullRequestValidator implements PullRequestValidat
 	@Override
 	public void validate() {
 		final List<Cobertura> coberturas = Lists.newArrayList();
-		final CommitFileAnalyser analyser = new CommitFileAnalyser( mapper, chunkBlammer );
+		final CommitFileAnalyser analyser = new CommitFileAnalyser( mapper, chunkBlammer, minCoverage );
 		for (CommitFile file : gh.getPullRequestCommitFiles())
 			coberturas.add( analyser.analyse( file ) );
 		checkTotalCoverage( CoberturaMapper.map( coberturas ) );

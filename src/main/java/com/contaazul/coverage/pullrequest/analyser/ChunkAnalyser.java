@@ -18,30 +18,35 @@ public class ChunkAnalyser {
 	private LinePositioner positioner;
 	private LineCoverager coverager;
 	private final ChunkBlammer blammer;
+	private int minCoverage;
 
-	public ChunkAnalyser(LineCoverager coverager, LinePositioner positioner, ChunkBlammer blammer) {
+	public ChunkAnalyser(LineCoverager coverager, LinePositioner positioner, ChunkBlammer blammer, int minCoverage) {
 		this.coverager = coverager;
 		this.positioner = positioner;
 		this.blammer = blammer;
+		this.minCoverage = minCoverage;
 	}
 
 	public Cobertura analyse(Map<Integer, Integer> chunk, CommitFile file) {
 		logger.debug( "Analysing chunk " + chunk );
 		Cobertura coverage = getChunkCoverage( chunk, coverager );
-		blammer.blame( file, coverage.getCoverage(), positioner.toPosition( coverage.getLastLine() ) );
+		logger.info( "Chunck " + chunk + " has " + coverage.toString() + " coverage " + coverage.getCoverage() );
+		if (coverage.isLowerThan( minCoverage ))
+			blammer.blame( file, coverage.getCoverage(), positioner.toPosition( coverage.getLastLine() ) );
 		return coverage;
 	}
 
 	private Cobertura getChunkCoverage(Map<Integer, Integer> chunk, LineCoverager coverager) {
-		final Cobertura chunkCoverage = new CoberturaImpl();
+		final Cobertura coverage = new CoberturaImpl();
 		for (Entry<Integer, Integer> line : chunk.entrySet())
-			analyseLine( coverager, chunkCoverage, line.getKey() );
-		return chunkCoverage;
+			analyseLine( coverager, coverage, line.getKey() );
+		return coverage;
 	}
 
 	private void analyseLine(LineCoverager coverager, Cobertura chunkCoverage, int line) {
-		final Integer lineCoverage = coverager.getLineCoverage( line );
-		if (lineCoverage != null)
-			chunkCoverage.incrementCoverage( line, lineCoverage );
+		final Integer coverage = coverager.getCoverage( line );
+		logger.debug( "Line " + line + " has " + coverage + " coverage " );
+		if (coverage != null)
+			chunkCoverage.incrementCoverage( line, coverage );
 	}
 }

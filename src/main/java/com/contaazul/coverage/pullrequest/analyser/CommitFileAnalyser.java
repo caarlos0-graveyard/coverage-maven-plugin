@@ -22,31 +22,34 @@ public class CommitFileAnalyser {
 	private static final Logger logger = LoggerFactory.getLogger( CommitFileAnalyser.class );
 	private ClazzMapper mapper;
 	private ChunkBlammer blammer;
+	private int minCoverage;
 
-	public CommitFileAnalyser(ClazzMapper mapper, ChunkBlammer blammer) {
+	public CommitFileAnalyser(ClazzMapper mapper, ChunkBlammer blammer, int minCoverage) {
 		super();
 		this.mapper = mapper;
 		this.blammer = blammer;
+		this.minCoverage = minCoverage;
 	}
 
 	public Cobertura analyse(CommitFile file) {
-		logger.debug( "File: " + file.getFilename() );
 		if (file.getPatch() == null)
 			return new NullCobertura();
-		return analyseChunks( file );
+		Cobertura cobertura = analyseFile( file );
+		logger.debug( "File: " + file.getFilename() + " has " + cobertura.getCoverage() + "% coverage" );
+		return cobertura;
 	}
 
-	private Cobertura analyseChunks(CommitFile file) {
+	private Cobertura analyseFile(CommitFile file) {
 		final LinePositioner positioner = LinePositionerFactory.build( file );
 		final LineCoverager coverager = LineCoveragerFactory.build( file, mapper );
 		if (positioner == null || coverager == null)
 			return new NullCobertura();
-		return analyseFile( file, positioner, coverager );
+		return analyse( file, positioner, coverager );
 	}
 
-	private Cobertura analyseFile(CommitFile file, final LinePositioner positioner, final LineCoverager coverager) {
+	private Cobertura analyse(CommitFile file, final LinePositioner positioner, final LineCoverager coverager) {
 		final List<Cobertura> fileCoverage = Lists.newArrayList();
-		final ChunkAnalyser analyser = new ChunkAnalyser( coverager, positioner, blammer );
+		final ChunkAnalyser analyser = new ChunkAnalyser( coverager, positioner, blammer, minCoverage );
 		for (Map<Integer, Integer> chunk : positioner.getChunks())
 			fileCoverage.add( analyser.analyse( chunk, file ) );
 		return CoberturaMapper.map( fileCoverage );
