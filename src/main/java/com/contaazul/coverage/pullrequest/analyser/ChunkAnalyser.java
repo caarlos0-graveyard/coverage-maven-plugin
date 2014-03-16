@@ -29,7 +29,7 @@ public class ChunkAnalyser {
 
 	public Cobertura analyse(Map<Integer, Integer> chunk, CommitFile file) {
 		logger.debug( "Analysing chunk " + chunk );
-		Cobertura coverage = getChunkCoverage( chunk, coverager );
+		final Cobertura coverage = getChunkCoverage( chunk, coverager );
 		logger.info( "Chunck " + chunk + " has " + coverage.toString() + " coverage " + coverage.getCoverage() );
 		if (coverage.isLowerThan( minCoverage ))
 			blammer.blame( file, coverage.getCoverage(), positioner.toPosition( coverage.getLastLine() ) );

@@ -12,6 +12,7 @@ import com.contaazul.coverage.cobertura.LineCoverager;
 import com.contaazul.coverage.git.LinePositioner;
 import com.contaazul.coverage.pullrequest.cobertura.Cobertura;
 import com.contaazul.coverage.pullrequest.cobertura.CoberturaMapper;
+import com.contaazul.coverage.pullrequest.cobertura.IgnoredCobertura;
 import com.contaazul.coverage.pullrequest.cobertura.NullCobertura;
 import com.contaazul.coverage.pullrequest.factory.LineCoveragerFactory;
 import com.contaazul.coverage.pullrequest.factory.LinePositionerFactory;
@@ -35,15 +36,16 @@ public class CommitFileAnalyser {
 		if (file.getPatch() == null)
 			return new NullCobertura();
 		Cobertura cobertura = analyseFile( file );
-		logger.debug( "File: " + file.getFilename() + " has " + cobertura.getCoverage() + "% coverage" );
+		logger.debug( "New line added to file: " + file.getFilename() + " are with " + cobertura.getCoverage()
+				+ "% coverage" );
 		return cobertura;
 	}
 
 	private Cobertura analyseFile(CommitFile file) {
 		final LinePositioner positioner = LinePositionerFactory.build( file );
 		final LineCoverager coverager = LineCoveragerFactory.build( file, mapper );
-		if (positioner == null || coverager == null)
-			return new NullCobertura();
+		if (coverager == null)
+			return new IgnoredCobertura();
 		return analyse( file, positioner, coverager );
 	}
 

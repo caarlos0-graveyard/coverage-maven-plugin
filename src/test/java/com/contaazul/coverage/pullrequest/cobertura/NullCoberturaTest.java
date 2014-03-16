@@ -21,7 +21,7 @@ public class NullCoberturaTest {
 	public void testNullCobertura() throws Exception {
 		cobertura.incrementCoverage( 10 );
 		cobertura.incrementCoverage( 10, 30 );
-		assertEquals( 0.0, cobertura.getCoverage(), 0.0001 );
+		assertEquals( 100.0, cobertura.getCoverage(), 0.0001 );
 		assertEquals( -1, cobertura.getLastLine() );
 		assertTrue( cobertura.isLowerThan( 42 ) );
 	}

@@ -1,6 +1,6 @@
 package com.contaazul.coverage.pullrequest.cobertura;
 
-public class NullCobertura implements Cobertura {
+public class IgnoredCobertura implements Cobertura {
 
 	@Override
 	public void incrementCoverage(double coverage) {
@@ -8,7 +8,7 @@ public class NullCobertura implements Cobertura {
 
 	@Override
 	public double getCoverage() {
-		return 100.0;
+		return 0.0;
 	}
 
 	@Override
@@ -27,6 +27,6 @@ public class NullCobertura implements Cobertura {
 
 	@Override
 	public String toString() {
-		return "NullCobertura []";
+		return "IgnoredCobertura []";
 	}
 }

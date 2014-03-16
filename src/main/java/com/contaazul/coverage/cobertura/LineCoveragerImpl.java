@@ -26,6 +26,7 @@ public class LineCoveragerImpl implements LineCoverager {
 	@Override
 	public Integer getCoverage(int lineNumber) {
 		Line line = findLine( lineNumber );
+		logger.info( "Line.class " + line.getClass().getSimpleName() );
 		return getCoverageOf( line );
 	}
 
