@@ -1,4 +1,4 @@
-package com.contaazul.coverage;
+package com.contaazul.coverage.pullrequest.validator;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -18,10 +18,10 @@ import com.contaazul.coverage.cobertura.entity.Coverage;
 import com.contaazul.coverage.cobertura.entity.Line;
 import com.contaazul.coverage.cobertura.entity.Package;
 import com.contaazul.coverage.github.GithubService;
-import com.contaazul.coverage.pullrequest.BuildBreakerPullRequestValidator;
-import com.contaazul.coverage.pullrequest.PullRequestValidator;
-import com.contaazul.coverage.pullrequest.AbstractPullRequestValidator;
 import com.contaazul.coverage.pullrequest.UndercoveredException;
+import com.contaazul.coverage.pullrequest.validator.AbstractPullRequestValidator;
+import com.contaazul.coverage.pullrequest.validator.BuildBreakerPullRequestValidator;
+import com.contaazul.coverage.pullrequest.validator.PullRequestValidator;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 

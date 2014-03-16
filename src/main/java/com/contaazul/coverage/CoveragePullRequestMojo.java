@@ -8,8 +8,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
 import com.contaazul.coverage.github.GithubRepo;
-import com.contaazul.coverage.pullrequest.PullRequestValidator;
 import com.contaazul.coverage.pullrequest.PullRequestValidatorBuilder;
+import com.contaazul.coverage.pullrequest.validator.PullRequestValidator;
 
 /**
  * 

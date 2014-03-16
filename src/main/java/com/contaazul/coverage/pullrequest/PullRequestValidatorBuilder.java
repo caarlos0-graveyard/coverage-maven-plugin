@@ -8,6 +8,9 @@ import com.contaazul.coverage.github.GithubRepo;
 import com.contaazul.coverage.github.GithubService;
 import com.contaazul.coverage.github.GithubServiceImpl;
 import com.contaazul.coverage.maven.CoverageMavenProject;
+import com.contaazul.coverage.pullrequest.validator.BuildBreakerPullRequestValidator;
+import com.contaazul.coverage.pullrequest.validator.NonBuildBreakerPullRequestValidator;
+import com.contaazul.coverage.pullrequest.validator.PullRequestValidator;
 
 public class PullRequestValidatorBuilder {
 	private int minCoverage = 95;

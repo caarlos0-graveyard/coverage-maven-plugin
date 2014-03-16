@@ -1,6 +1,7 @@
-package com.contaazul.coverage;
+package com.contaazul.coverage.pullrequest.validator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -15,7 +16,6 @@ import org.mockito.Mock;
 
 import com.contaazul.coverage.cobertura.CoverageException;
 import com.contaazul.coverage.github.GithubRepo;
-import com.contaazul.coverage.pullrequest.PullRequestValidator;
 import com.contaazul.coverage.pullrequest.PullRequestValidatorBuilder;
 import com.google.common.io.Files;
 

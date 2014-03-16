@@ -1,4 +1,4 @@
-package com.contaazul.coverage.pullrequest;
+package com.contaazul.coverage.pullrequest.validator;
 
 import com.contaazul.coverage.cobertura.entity.Coverage;
 import com.contaazul.coverage.github.GithubService;

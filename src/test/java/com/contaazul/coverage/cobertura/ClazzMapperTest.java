@@ -1,4 +1,4 @@
-package com.contaazul.coverage;
+package com.contaazul.coverage.cobertura;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;

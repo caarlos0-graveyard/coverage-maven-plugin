@@ -1,4 +1,4 @@
-package com.contaazul.coverage.pullrequest;
+package com.contaazul.coverage.pullrequest.cobertura;
 
 public class NullCobertura implements Cobertura {
 

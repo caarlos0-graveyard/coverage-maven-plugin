@@ -1,4 +1,4 @@
-package com.contaazul.coverage;
+package com.contaazul.coverage.github;
 
 import static org.junit.Assert.*;
 
