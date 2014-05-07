@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Coverage-maven-plugin by caarlos0</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Coverage-maven-plugin</h1>
+        <p>A maven plugin that will blame on pull requests pointing out chunks of code with low code coverage.</p>
+
+        <p class="view"><a href="https://github.com/caarlos0/coverage-maven-plugin">View the Project on GitHub <small>caarlos0/coverage-maven-plugin</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/caarlos0/coverage-maven-plugin/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/caarlos0/coverage-maven-plugin/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/caarlos0/coverage-maven-plugin">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="coverage-maven-plugin-" class="anchor" href="#coverage-maven-plugin-"><span class="octicon octicon-link"></span></a>coverage-maven-plugin <a href="https://travis-ci.org/caarlos0/coverage-maven-plugin"><img src="https://travis-ci.org/caarlos0/coverage-maven-plugin.svg?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>A maven plugin that will blame on pull requests pointing out
+chunks of code with low code coverage.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>You have to setup Cobertura plugin to generate the output as XML:</p>
+
+<div class="highlight highlight-xml"><pre>...
+<span class="nt">&lt;build&gt;</span>
+  <span class="nt">&lt;plugins&gt;</span>
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>cobertura-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;configuration&gt;</span>
+        <span class="nt">&lt;formats&gt;</span>
+          <span class="nt">&lt;format&gt;</span>html<span class="nt">&lt;/format&gt;</span>
+          <span class="nt">&lt;format&gt;</span>xml<span class="nt">&lt;/format&gt;</span>
+        <span class="nt">&lt;/formats&gt;</span>
+      <span class="nt">&lt;/configuration&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+  <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+...
+</pre></div>
+
+<p>And run the following command:</p>
+
+<div class="highlight highlight-bash"><pre>mvn clean install cobertura:cobertura <span class="se">\</span>
+  com.contaazul:coverage-maven-plugin:publish <span class="se">\</span>
+  -Dgithub.pullRequestId<span class="o">=</span><span class="k">${</span><span class="nv">ID_OF_THE_PULL_REQUEST</span><span class="k">}</span> <span class="se">\</span>
+  -Dgithub.repositoryOwner<span class="o">=</span><span class="k">${</span><span class="nv">REPOSITORY_OWNER</span><span class="k">}</span> <span class="se">\</span>
+  -Dgithub.repositoryName<span class="o">=</span><span class="k">${</span><span class="nv">REPOSITORY_NAME</span><span class="k">}</span> <span class="se">\</span>
+  -Dgithub.oauth2<span class="o">=</span><span class="k">${</span><span class="nv">YOUR_OAUTH2_KEY</span><span class="k">}</span> <span class="se">\</span>
+  -Dfail<span class="o">=</span><span class="nb">false</span> <span class="se">\ </span><span class="c"># optional, defaults to true. If set to false, build will not break when in low coverage</span>
+  -DcommentChunks<span class="o">=</span><span class="nb">true</span> <span class="se">\ </span><span class="c"># optional, wether to comment or not in chunks with low coverage</span>
+  -DminCoverage<span class="o">=</span>90 <span class="c"># the minimum acceptable coverage, defaults to 100</span>
+</pre></div>
+
+<p>You can get a OAUTH2 key <a href="https://github.com/settings/tokens/new">here</a>.</p>
+
+<h2>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?</h2>
+
+<p>We used to manually look at our code coverage statuses, and see if our
+recently added lines are with enough coverage. But this is boring, and
+we are developers, and developers automate things, and so we did.</p>
+
+<p>Pull Requests are a part of our culture, and we want good code coverage
+to be as well. We already have a <a href="https://github.com/velo/sonar-pull-request-integration">Sonar Plugin</a> that will report
+code with bugs and other issues, and now we also have Code Coverage.</p>
+
+<p>We configured this plugin to run within our CI Server, so, everything is
+automated, we just open a pull request and the CI do the rest.</p>
+
+<h2>
+<a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How it works</h2>
+
+<ul>
+<li>It's based in Cobertura Maven plugin, but this will probably be changed
+in the future;</li>
+<li>We use the egit.github library to get and put info into Github using OAUTH2;</li>
+<li>The plugin will map the lines added in your pull request with the results
+provided by Cobertura, then calc each chunk coverage, then each file coverage,
+and then the overral PR coverage.</li>
+</ul><h3>
+<a name="todos" class="anchor" href="#todos"><span class="octicon octicon-link"></span></a>TODO's</h3>
+
+<p>Please take a look at <a href="https://github.com/caarlos0/coverage-maven-plugin/issues/4">this issue</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/caarlos0">caarlos0</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-50762328-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
